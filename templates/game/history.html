@@ -1,0 +1,104 @@
+{% extends 'game/base.html' %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Game History</h2>
+                {% if game_sessions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Result</th>
+                                    <th>Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for session in game_sessions %}
+                                <tr>
+                                    <td>
+                                        {% if "Won" in session.result %}
+                                            <span class="text-success">{{ session.result }}</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ session.result }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ session.timestamp|date:"M d, Y H:i" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        No games played yet. <a href="{% url 'game:game_simulation' %}" class="alert-link">Start playing!</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Transaction History</h2>
+                {% if transactions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>${{ transaction.amount }}</td>
+                                    <td>
+                                        {% if transaction.status == 'COMPLETED' %}
+                                            <span class="badge bg-success">{{ transaction.status }}</span>
+                                        {% elif transaction.status == 'PENDING' %}
+                                            <span class="badge bg-warning text-dark">{{ transaction.status }}</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">{{ transaction.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ transaction.transaction_date|date:"M d, Y H:i" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        No transactions yet. <a href="{% url 'game:deposit' %}" class="alert-link">Make a deposit!</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="d-grid gap-2">
+                <a href="{% url 'game:game_simulation' %}" class="btn btn-primary">Play Game</a>
+                <a href="{% url 'game:deposit' %}" class="btn btn-outline-dark">Make Deposit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <p class="text-muted">
+        <small>Showing the last 20 games and transactions. This is a simulation for educational purposes only.</small>
+    </p>
+</div>
+{% endblock %}
