@@ -1,0 +1,78 @@
+{% extends 'game/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+        <h1 class="display-4 mb-4">Welcome to Casino Tutorial</h1>
+        <p class="lead mb-4">This is an educational simulation demonstrating web development concepts using Django.</p>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Features</h5>
+                <div class="row text-start">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">✓ Simulated Game Experience</li>
+                            <li class="mb-2">✓ User Authentication</li>
+                            <li class="mb-2">✓ Transaction History</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">✓ Secure Form Handling</li>
+                            <li class="mb-2">✓ Modern UI Design</li>
+                            <li class="mb-2">✓ Responsive Layout</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'game:game_simulation' %}" class="btn btn-primary btn-lg px-4">Play Game</a>
+                <a href="{% url 'game:deposit' %}" class="btn btn-outline-dark btn-lg px-4">Make Deposit</a>
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                Please <a href="{% url 'login' %}" class="alert-link">login</a> to start playing!
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Game Simulation</h5>
+                <p class="card-text">Experience our simulated game environment with realistic gameplay mechanics.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Secure Transactions</h5>
+                <p class="card-text">Learn about secure form handling and transaction processing in Django.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">User Management</h5>
+                <p class="card-text">Explore user authentication and session management features.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <p class="text-muted">
+        <small>This is an educational project for learning purposes only. No real money is involved.</small>
+    </p>
+</div>
+{% endblock %}
